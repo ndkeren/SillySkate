@@ -3,15 +3,21 @@ var debt   = require('../debt');
 
 describe('debt.add()', function () {
   it('should add debt record', function () {
-	  
-    // 1. ARRANGE
+		
+	var res;
+	
 	// Set something
+	// +100
+	res = debt.add('TEST1', 'TEST2', 100);
+	
+	// -50
+	res = debt.add('TEST2', 'TEST1', 50);
+	
+	// +100
+	res = debt.add('TEST1', 'TEST2', 100);
 
-    // 2. ACT
-    // Do something
-
-    // 3. ASSERT
-    expect(1).to.be.equal(1);
+    // Assert
+    expect(res).to.be.equal(150);
 
   });
 });
@@ -19,28 +25,34 @@ describe('debt.add()', function () {
 describe('debt.read()', function () {
   it('should read debt info', function () {
     
-	// 1. ARRANGE
-	// Set something
-
+	var res;
+	
+	// +100
+	debt.add('TEST1', 'TEST2', 100);
+	
+	// -50
+	debt.add('TEST2', 'TEST1', 50);
+	
+	// +100
+	debt.add('TEST1', 'TEST2', 100);
     // 2. ACT
     // Do something
-
+	
+	res = debt.read('TEST1');
+	// console.log(res);
+	
     // 3. ASSERT
-    expect(1).to.be.equal(1);
+    expect(res).to.deep.equal({ owe: { TEST1: 100 }, owed: { TEST1: 400 } });
 
   });
 });
 
+
 describe('debt.settle()', function () {
   it('should try to settle all debts between people', function () {
     
-	// 1. ARRANGE
-	// Set something
-
-    // 2. ACT
-    // Do something
-
-    // 3. ASSERT
+	// TODO::
+	// Implement and test..
     expect(1).to.be.equal(1);
 
   });
