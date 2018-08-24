@@ -61,6 +61,7 @@ module.exports = {
 		*/
 		// console.log(this.data);
 		// Return total money owed between 2 users
+
 		return total;
 		
 	},
@@ -82,18 +83,18 @@ module.exports = {
 			if(this.data[x][0] == name) {
 				
 				// This person owes somebody, aggregate..
-				if(res_owed[this.data[x][0]]) {
-					res_owed[this.data[x][0]] += this.data[x][2];
+				if(res_owed[this.data[x][1]]) {
+					res_owed[this.data[x][1]] += this.data[x][2];
 				} else {
-					res_owed[this.data[x][0]] = this.data[x][2];
+					res_owed[this.data[x][1]] = this.data[x][2];
 				}
 				
 			} else if(this.data[x][1] == name) {
 				
-				if(res_owe[this.data[x][1]]) {
-					res_owe[this.data[x][1]] += this.data[x][2];
+				if(res_owe[this.data[x][0]]) {
+					res_owe[this.data[x][0]] += this.data[x][2];
 				} else {
-					res_owe[this.data[x][1]] = this.data[x][2];
+					res_owe[this.data[x][0]] = this.data[x][2];
 				}
 				// Somebody owes this person
 				
