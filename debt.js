@@ -19,25 +19,25 @@ module.exports = {
 		var total = 0;
 		var count = 0;
 		
-		for(x in data) {
+		for(x in this.data) {
 			
 			// Check existing to this name
-			if(data[x][0] == from && data[x][1] == to) {
-				total += data[x][2];
+			if(this.data[x][0] == from && this.data[x][1] == to) {
+				total += this.data[x][2];
 				count++;
 			}
 			
 			// Check existing from this name
-			if(data[x][1] == to && data[x][0] == from) {
-				total -= data[x][2];
+			if(this.data[x][1] == from && this.data[x][0] == to) {
+				total -= this.data[x][2];
 				count++;
 			}
 			
 		}
 		
-		this.data.push([ from , to , amount, new Date().getTime() ]);
+		this.data.push([ from , to , parseFloat(amount), new Date().getTime() ]);
 		
-		total += amount;
+		total += parseFloat(amount);
 		count++;
 		
 		// Check if all settled between 2 users
@@ -59,7 +59,7 @@ module.exports = {
 			time: new Date().getTime()
 		});
 		*/
-		
+		// console.log(this.data);
 		// Return total money owed between 2 users
 		return total;
 		

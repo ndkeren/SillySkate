@@ -17,14 +17,14 @@ router.get('/add', function (req, res) {
 
   var total = debt.add(req.query.from, req.query.to, req.query.amount);
 
-  if(total) {
+  if(total !== false) {
 	res.json({ success: true, op: 'add', from: req.query.from, to: req.query.to, amount: req.query.amount, total: total });
   } else {
 	// TODO:: Or settled..
 	res.json({ success: false, err: 'Unspecified error..' });
   }	  
 	
-  res.send();
+  // res.send();
   
 });
 
