@@ -16,7 +16,38 @@ module.exports = {
 			return false;
 		}
 		
+		var total = 0;
+		var count = 0;
+		
+		for(x in data) {
+			
+			// Check existing to this name
+			if(data[x][0] == from && data[x][1] == to) {
+				total += data[x][2];
+				count++;
+			}
+			
+			// Check existing from this name
+			if(data[x][0] == to && data[x][1] == from) {
+				total -= data[x][2];
+				count++;
+			}
+			
+		}
+		
 		this.data.push([ from , to , amount, new Date().getTime() ]);
+		
+		total += amount;
+		count++;
+		
+		// Check if all settled between 2 users
+		if(total == 0) {
+			
+			// TODO::
+			// Clear existing records?
+			// Keep for reference?
+			
+		}
 		
 		// TODO:: More readable format perhaps?
 		// Debt model should be an object with easier lookup?
@@ -29,7 +60,8 @@ module.exports = {
 		});
 		*/
 		
-		return true;
+		// Return total money owed between 2 users
+		return total;
 		
 	},
 	
@@ -42,31 +74,44 @@ module.exports = {
 			return false;
 		}
 		
-		var res_in  = [];
-		var res_out = [];
+		var res_owe  = {};
+		var res_owed = {};
 		
 		for(x in this.data) {
+			
 			if(this.data[x][0] == name) {
 				
-				// This person owes somebody
-				res_out.push(this.data[x]);
+				// This person owes somebody, aggregate..
+				if(res_owed[this.data[x][0]]) {
+					res_owed[this.data[x][0]] += this.data[x][2];
+				} else {
+					res_owed[this.data[x][0]] = this.data[x][2];
+				}
 				
-			} else if(this.ata[x][1] == name) {
+			} else if(this.data[x][1] == name) {
 				
-				res_in.push(this.data[x]);
+				if(res_owe[this.data[x][1]]) {
+					res_owe[this.data[x][1]] += this.data[x][2];
+				} else {
+					res_owe[this.data[x][1]] = this.data[x][2];
+				}
 				// Somebody owes this person
 				
 			} else {
 				// Between other people
 			}				
+			
 		}
 		
-		if(!res_in.length && !res_out.length) {
-			// Specified person not found
-			return false;
-		}
+		// if(!res_owe.length && !res_owed.length) {
+		// Specified person not found
+		//	return false;
+		// }
 		
-		return [ res_in, res_out ];
+		return { 
+			owe: res_owe,
+			owed: res_owed,
+		};
 		
 	},
 	// Get settle solution between all people

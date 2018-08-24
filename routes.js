@@ -14,10 +14,13 @@ router.get('/add', function (req, res) {
 	  res.json({ success: false, err: 'Missing parameters check :: from,to,amount' });
 	  return;
   }
-	
-  if(debt.add(req.query.from, req.query.to, req.query.amount)) {
-	res.json({ success: true, op: 'add', from: req.query.from, to: req.query.to, amount: req.query.amount });
+
+  var total = debt.add(req.query.from, req.query.to, req.query.amount);
+
+  if(total) {
+	res.json({ success: true, op: 'add', from: req.query.from, to: req.query.to, amount: req.query.amount, total: total });
   } else {
+	// TODO:: Or settled..
 	res.json({ success: false, err: 'Unspecified error..' });
   }	  
 	
@@ -26,6 +29,12 @@ router.get('/add', function (req, res) {
 });
 
 router.get('/read', function (req, res) {
+	
+  if(!req.query.name) {
+	  res.json({ success: false, err: 'Missing name..' });
+	  return;
+  }	
+	
   res.json(debt.read(req.query.name));
 });
 
