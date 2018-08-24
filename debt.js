@@ -28,7 +28,7 @@ module.exports = {
 			}
 			
 			// Check existing from this name
-			if(data[x][0] == to && data[x][1] == from) {
+			if(data[x][1] == to && data[x][0] == from) {
 				total -= data[x][2];
 				count++;
 			}
